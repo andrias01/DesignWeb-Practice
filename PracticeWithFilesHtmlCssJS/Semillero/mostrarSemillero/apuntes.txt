@@ -1,0 +1,18 @@
+text	Campo de texto normal
+password	Contraseñas ocultas
+email	Dirección de correo
+number	Números con valores mínimos y máximos
+date	Selector de fecha
+time	Selector de hora
+datetime-local	Fecha y hora combinadas
+color	Selector de color
+file	Subir archivos
+url	URLs válidas
+tel	Números de teléfono
+search	Búsquedas
+range	Selector deslizante
+radio	Opción única en un grupo
+checkbox	Múltiples opciones seleccionables
+button	Botón sin funcionalidad (requiere JS)
+submit	Envía el formulario
+reset	Restablece los valores del formulario
