@@ -1,0 +1,156 @@
+Donde se puede poner estilos con css
+1. En la misma etiqueta
+2. en el archivo html como <Script></Script>
+3. Crear un archivo aparte .css
+
+Selectores
+1. identificador   id="nombreIdentificador"
+y en css #nombreIdentificador {
+    contenedor css
+}
+
+2. clases    class="nombreDeLaClase" 
+estas clases se pueden repetir en distintas 
+etiquetas
+en css
+p.nombreDeLaClase {
+    contenedor css
+}
+
+ejemplo
+h1 id titulo
+p class texto
+p class texto especial
+p especial
+
+BORDES
+
+.color {
+    border: 5px red "elementoPropiedad"
+    dottet,dashed,solid,double,groove,ridge
+    inset,outset,none,hidden
+}
+
+IMAGEN
+
+.fondo {
+    background-color : ridge
+    opacity
+    background.image
+    background-size : auto,
+    cover (utiliza el ancho disponible)
+    contain (contiene la imagen dentro de las dimenciones)
+
+}
+
+MARGEN  box model
+.margen {
+    background-color:
+    margin:
+    padding:
+    border:
+    overflow : hidden, scroll
+    outline: 1px solid red
+}
+
+texto
+.text {
+    text-align: justify, center ,left y right
+    text-decoration: underline , line-through ,overline ,
+    text-shadow: 3px 5px 5px red; (lado,bajo,sombra,color)
+    font-family: estilo fuente
+    fuente de google link
+    font-family: 'name'
+}
+
+LINK  <a h"link"></a>
+a:link {
+    no a sido visitado
+    color : blue
+}
+
+a:visited {
+    color :red
+}
+
+a:hover {
+    pasar el mouse por encima
+}
+
+a:active {
+    cuando le estoy dando clik
+}
+
+LISTA  <ul>
+            <li></li>
+        </ul>
+ul {
+    list-style-type: none,circle
+    padding-left: 0;
+}
+
+TABLA  
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: solid 1px red;
+}
+
+th {
+    background-color: red;
+    color: white;
+    text-align: left
+}
+
+tr:hover {
+    background-color: blue;
+    cursor: pointer; 
+}
+
+tr:nth-child(even,odd) {
+    background-color : red;
+}
+
+VISIBILIDAD
+
+display : block (saltolinea)
+            inline (uno despues del otro)
+
+visibility : hidden;
+
+POSICION
+
+#position {
+    pisition: fixed ; dejar anclado
+}
+
+FLOTADORES
+float: right,  left
+
+TRANS
+hover
+box-shadow: 0 0.1rem 0.4rem rgba(0.3 visible)
+
+elemento
+transition : box-shadow 0.3s ease
+
+IR AL COMIENZO href="#titulo"
+
+div.container>div.slides>div.slide#contenido$*3>(img+p+label)
+input[type=radio]#slide$[name=slides]*3
+
+alt +126   ~
