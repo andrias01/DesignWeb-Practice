@@ -1,0 +1,5 @@
+PARA CREAR UN COMPONENTE RAPIDO 
+usar la el mensaje corto de rfce
+
+div.container>div.slides>div.slide#contenido$*3>(img+p+label)
+input[type=radio]#slide$[name=slides]*3
