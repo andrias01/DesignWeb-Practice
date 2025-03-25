@@ -6,6 +6,7 @@
         text-align: center;
         padding: 10px;
     }
+
     h3 {
         background-color: rgba(0, 0, 255, 50%);
         color: white;
@@ -23,30 +24,133 @@
         border-radius: 5px;
     }
 
-    input[type=text]{
+    input[type=text] {
         text-align: left;
-        margin-right: 20px;
+        display: inline-block;
     }
-    
-    
+
+    input[type=password] {
+        text-align: left;
+        display: inline-block;
+    }
+
+
     img {
         height: 200px;
         width: 200px;
     }
 
-    *{
+    * {
         text-align: center;
         font-family: Arial, Helvetica, sans-serif;
     }
+
     button {
         border: solid 5px black;
         border-radius: 5px;
         cursor: pointer;
     }
+
     button:hover {
         background-color: aquamarine;
     }
+
+    label {
+        display: inline-block;
+        margin-right: 20px;
+    }
 }
 
+.header {
+    background-color: aqua;
+    display: block;
+    border-radius: 5px;
+    height: auto;
+    /* box-sizing: border-box; */
+    word-wrap: break-word;
+    
+}
 
+.title {
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    margin-bottom: 0;
+}
 
+.link-list {
+    background-color: aqua;
+    display: flex;
+    /* display: inline-block; */
+    margin: 25px 10px 0px 10px;
+    padding: 10px;
+}
+
+.link {
+    
+    border: solid 2px black;
+    border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+    
+    margin: 0px 7px 20px 0px;
+    color: white;
+    background-color: blue;
+}
+
+.link:hover {
+    background-color: beige;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    /* padding-inline-start: 0px; */
+}
+
+#blog {
+    li {
+        border: solid 2px black;
+        padding: 10px;
+        text-align: center;
+        list-style: none;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+   
+    h3 {
+        font-size: 30px;
+        text-decoration: none;
+        text-align: center;
+        color: red;
+    }
+    p {
+        font-size: 15px;
+        text-align: center;
+    }
+    #something-bad {
+        background-color: red;
+        font-size: 30px;
+        text-align: center;
+        border-radius: 5px;
+        display: inline-block;
+        margin: auto;
+        padding: 10px;
+    }
+}
+
+#error_page {
+    text-align: center;
+    h1 {
+        background-color: red;
+        font-size: 60px;
+        text-align: center;
+        border-radius: 5px;
+        display: inline-block;
+        margin: auto;
+    }
+    
+}

@@ -1,6 +1,7 @@
 //import './TrueFalse.css';
 import { useState } from 'react';
 import imagenes from './imagenes';
+import HeaderComponent from '../pages/HeaderComponent';
 function ShowIfTrue() {
     const [myBoolean, setMyBoolean] = useState("true");
     const handleChance = (e) =>{
@@ -8,6 +9,8 @@ function ShowIfTrue() {
         setMyBoolean(e.target.id)
     }
   return (
+    <>
+    <HeaderComponent></HeaderComponent>
     <div>
         <h1>Valor del Radio = {myBoolean}</h1>
         <input type="radio" id="true" name="slides" onChange={handleChance}/>
@@ -20,9 +23,9 @@ function ShowIfTrue() {
             <img src={imagenes.img2False} alt="" />
             )
         } */}
-        
     </div>
-    // <div id='trueFalse'>
+     </>   
+    //  <div id='trueFalse'>
     //     <div className="container">
     //         <input type="radio" id="true" name="slides" />
     //         <input type="radio" id="false" name="slides" />
@@ -45,6 +48,7 @@ function ShowIfTrue() {
     //         { <img src={imagenes.img1True} alt="" />}
     //     </div>
     // </div>
+    
   )
 }
 

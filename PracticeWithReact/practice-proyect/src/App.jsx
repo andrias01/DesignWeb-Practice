@@ -1,10 +1,13 @@
 import './App.css'
 import Menu from './components/Menu'
-import RenderList from './components/RenderList'
+import PagesRouter from './components/PagesRouter'
+
 function App() {
   return (
     <div>
-      <RenderList></RenderList>
+      <PagesRouter>
+
+      </PagesRouter>
     </div>
     
   )

@@ -1,0 +1,21 @@
+"@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+
+estas son las librerias para hacer texting
+
+mas estas tambien 
+"identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-svg-transformer": "^1.0.0",
+    "react-test-renderer": "^19.0.0"
+
+agregar en el scrip
+
+,
+    "test": "jest"
+
+    repositorio de configuracion
+    https://github.com/Amaza-ing/AMazaing-React-Course/tree/26-testing-config

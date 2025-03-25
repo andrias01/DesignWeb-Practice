@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './Menu.css'
+//import './Menu.css'
 function VariarEnInputText() {
     const[myText, setMyText] = useState("Mi nombre");
     const[myValue, setMyValue] = useState("Valor");
@@ -12,7 +12,7 @@ function VariarEnInputText() {
     <div id='menu'>
       <h1>Practica con INPUT</h1>
       <h3>{myValue}</h3>
-      <h4>{setMyText("NombreSetiado")}</h4>
+      {/* <h4>{setMyText("NombreSetiado")}</h4> */}
       <input 
         type="text" 
         placeholder={myText}
