@@ -1,9 +1,20 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import HeaderComponent from "../components/HeaderComponent.vue";
 import { useMovieStore } from "../stores/movie_store";
 
 const movieStore = useMovieStore();
+
+// onMounted es para ejecutar código cuando el componente se monta
+onMounted(() => {
+  console.log("Movies component mounted");
+});
+
+// onUnmounted es para ejecutar código cuando el componente se desmonta
+onUnmounted(() => {
+  console.log("Movies component unmounted");
+});
+
 
 </script>
 

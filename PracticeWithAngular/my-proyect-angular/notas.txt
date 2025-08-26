@@ -1,0 +1,8 @@
+para instalar angular de manera global
+npm install -g @angular/cli
+
+para crear el proyecto en angular
+ng new (name proyect)
+
+para iniciar el proyecto en un puerto local
+ng serve
