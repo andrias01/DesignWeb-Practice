@@ -1,0 +1,8 @@
+{
+    "customer_id": {
+        "S": "C002"
+    },
+    "email": {
+        "S": "email.consumo@gmail.com"
+    }
+}

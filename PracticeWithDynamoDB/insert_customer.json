@@ -1,0 +1,50 @@
+{
+    "customers": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "customer_id": {
+                        "S": "C002"
+                    },
+                    "name": {
+                        "S": "John Doe velz"
+                    },
+                    "email": {
+                        "S": "email.consumo@gmail.com"
+                    },
+                    "phone": {
+                        "S": "+34631111"
+                    },
+                    "address": {
+                        "M": {
+                            "zip": {
+                                "S": "12345"
+                            },
+                            "City": {
+                                "S": "CityName"
+                            },
+                            "state": {
+                                "S": "StateName"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "customer_id": {
+                        "S": "C003"
+                    },
+                    "name": {
+                        "S": "Jane Smith"
+                    },
+                    "email": {
+                        "S": "gggg@gmail.com"
+                    }
+                }
+            }
+        }
+    ]
+}

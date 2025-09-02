@@ -1,0 +1,20 @@
+{
+    "product_id": {
+        "S": "P002" 
+    },
+    "category": {
+        "S": "Electronics"
+    },
+    "name": {
+        "S": "Smartphone"
+    },
+    "price": {
+        "N": "699.99"
+    },
+    "stock": {
+        "N": "50"
+    },
+    "description": {
+        "S": "Latest model smartphone with advanced features"
+    }
+}

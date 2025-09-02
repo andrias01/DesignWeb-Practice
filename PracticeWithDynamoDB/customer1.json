@@ -1,0 +1,14 @@
+{
+    "customer_id": {
+        "S": "C002"
+    },
+    "email": {
+        "S": "email.consumo@gmail.com"
+    },
+    "name": {
+        "S": "John Doe consumo"
+    },
+    "phone": {
+        "S": "+84631111"
+    }
+}

@@ -1,0 +1,101 @@
+{
+    "products": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {
+                        "S": "P001"
+                    },
+                    "name": {
+                        "S": "Wireless Mouse"
+                    },
+                    "description": {
+                        "S": "Ergonomic wireless mouse with adjustable DPI."
+                    },
+                    "price": {
+                        "N": "29.99"
+                    },
+                    "stock": {
+                        "N": "150"
+                    },
+                    "category": {
+                        "S": "Electronics"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {
+                        "S": "P002"
+                    },
+                    "name": {
+                        "S": "Smartphone"
+                    },
+                    "description": {
+                        "S": "Latest model smartphone with advanced features"
+                    },
+                    "price": {
+                        "N": "699.99"
+                    },
+                    "stock": {
+                        "N": "50"
+                    },
+                    "category": {
+                        "S": "Electronics"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {
+                        "S": "P003"
+                    },
+                    "name": {
+                        "S": "Bluetooth Headphones"
+                    },
+                    "description": {
+                        "S": "Noise-cancelling over-ear Bluetooth headphones."
+                    },
+                    "price": {
+                        "N": "199.99"
+                    },
+                    "stock": {
+                        "N": "80"
+                    },
+                    "category": {
+                        "S": "Electronics"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {
+                        "S": "P004"
+                    },
+                    "name": {
+                        "S": "Gaming Keyboard"
+                    },
+                    "description": {
+                        "S": "Mechanical gaming keyboard with RGB lighting."
+                    },
+                    "price": {
+                        "N": "89.99"
+                    },
+                    "stock": {
+                        "N": "100"
+                    },
+                    "category": {
+                        "S": "Electronics"
+                    }
+                }
+            }
+        }
+        
+    ]
+}
