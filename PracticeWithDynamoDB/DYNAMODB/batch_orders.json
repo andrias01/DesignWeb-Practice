@@ -1,0 +1,70 @@
+{
+  "orders": [
+    {
+      "PutRequest": {
+        "Item": {
+          "order_id": { "S": "O016" },
+          "customer_id": { "S": "C001" },
+          "amount": { "N": "320.00" },
+          "status": { "S": "PENDING" },
+          "order_date": { "S": "2025-09-16" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "order_id": { "S": "O017" },
+          "customer_id": { "S": "C001" },
+          "items": { "L": [
+            { "S": "Tablet" },
+            { "S": "Funda protectora" }
+          ] },
+          "amount": { "N": "450.50" },
+          "order_date": { "S": "2025-09-17" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "order_id": { "S": "O018" },
+          "customer_id": { "S": "C001" },
+          "delivery": { "M": {
+            "city": { "S": "Bogotá" },
+            "zip": { "S": "110221" }
+          } },
+          "status": { "S": "SHIPPED" },
+          "amount": { "N": "210.75" },
+          "order_date": { "S": "2025-09-18" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "order_id": { "S": "O019" },
+          "customer_id": { "S": "C001" },
+          "tags": { "L": [
+            { "S": "promo" },
+            { "S": "electronics" }
+          ] },
+          "amount": { "N": "780.90" },
+          "status": { "S": "PAID" },
+          "order_date": { "S": "2025-09-19" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "order_id": { "S": "O020" },
+          "customer_id": { "S": "C001" },
+          "amount": { "N": "95.00" },
+          "notes": { "S": "Compra pequeña - recogida en tienda" },
+          "order_date": { "S": "2025-09-20" }
+        }
+      }
+    }
+  ]
+}

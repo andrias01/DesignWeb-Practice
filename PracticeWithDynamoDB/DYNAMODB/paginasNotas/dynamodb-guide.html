@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Completa de DynamoDB - AWS CLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            padding: 2rem;
+            text-align: center;
+            color: #333;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        nav {
+            background: #2c3e50;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            background: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        main {
+            padding: 2rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #3498db;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        h3 {
+            color: #34495e;
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        h4 {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin: 1rem 0 0.5rem;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "💻 Comando";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .json-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+        
+        .json-block::before {
+            content: "📄 JSON";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #28a745;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 5px solid #ff6b6b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            border-left: 5px solid #e17055;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #d1f2eb 0%, #a8e6cf 100%);
+            border-left: 5px solid #00b894;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .badge {
+            background: #3498db;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .badge.primary { background: #3498db; }
+        .badge.success { background: #27ae60; }
+        .badge.warning { background: #f39c12; }
+        .badge.danger { background: #e74c3c; }
+        
+        footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗃️ Guía Completa de DynamoDB</h1>
+            <p class="subtitle">Dominando las bases de datos NoSQL con AWS CLI</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#introduccion">Introducción</a></li>
+                <li><a href="#instalacion">Instalación</a></li>
+                <li><a href="#crud">Operaciones CRUD</a></li>
+                <li><a href="#consultas">Consultas</a></li>
+                <li><a href="#indices">Índices</a></li>
+                <li><a href="#avanzado">Operaciones Avanzadas</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <!-- INTRODUCCIÓN -->
+            <section id="introduccion">
+                <h2>📚 Introducción a DynamoDB</h2>
+                
+                <h3>Tipos de Bases de Datos NoSQL</h3>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Ejemplos</th>
+                            <th>Casos de Uso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge primary">Documentos</span></td>
+                            <td>Almacenan datos en formato JSON, BSON o XML con estructura flexible</td>
+                            <td>MongoDB, CouchDB</td>
+                            <td>Datos estructurados y no estructurados</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge success">Clave-Valor</span></td>
+                            <td>Recuperación rápida mediante clave única</td>
+                            <td>Redis, DynamoDB</td>
+                            <td>Lectura/escritura rápida</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge warning">Columnares</span></td>
+                            <td>Datos organizados en columnas para compresión eficiente</td>
+                            <td>Cassandra, HBase</td>
+                            <td>Analytics, Big Data</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge danger">Grafos</span></td>
+                            <td>Para datos altamente interconectados</td>
+                            <td>Neo4J, Amazon Neptune</td>
+                            <td>Relaciones complejas, redes sociales</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>🏗️ Estructura de DynamoDB</h3>
+                
+                <h4>Componentes de una Tabla</h4>
+                <ul>
+                    <li><strong>Clave Primaria Compuesta:</strong>
+                        <ol>
+                            <li>🔑 <strong>Clave de Partición:</strong> Distribuye los datos</li>
+                            <li>🎯 <strong>Clave de Ordenación:</strong> Ordena items dentro de la partición</li>
+                        </ol>
+                    </li>
+                    <li><strong>Índices:</strong>
+                        <ol>
+                            <li>🌐 <strong>Índices Secundarios Globales (GSI):</strong> Nueva tabla virtual</li>
+                            <li>🏠 <strong>Índices Locales (LSI):</strong> Misma partición, diferente ordenación</li>
+                        </ol>
+                    </li>
+                </ul>
+                
+                <h4>Diseños de Tablas</h4>
+                <div class="info-box">
+                    <h4>🏢 Tabla Múltiple</h4>
+                    <p><strong>Ventajas:</strong> Flexibilidad, fácil comprensión</p>
+                    <p><strong>Desventajas:</strong> Mayor costo</p>
+                    <p><strong>Uso:</strong> Aplicaciones tradicionales con entidades separadas</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>📊 Tabla Única</h4>
+                    <p><strong>Ventajas:</strong> Eficiencia de costos, escalabilidad horizontal</p>
+                    <p><strong>Desventajas:</strong> Mayor complejidad de acceso</p>
+                    <p><strong>Uso:</strong> Aplicaciones de alto rendimiento</p>
+                </div>
+                
+                <h3>📝 Tipos de Datos en DynamoDB</h3>
+                
+                <h4>1. Escalares</h4>
+                <div class="json-block">
+{
+    "nombre": "Hello, World",
+    "edad": 45,
+    "foto": "https://example.com/foto/base64",
+    "telefono": null
+}</div>
+                
+                <h4>2. Documentos (Colecciones Ordenadas)</h4>
+                <div class="json-block">
+{
+    "personas_asociadas": ["apple", "banana", 123, true],
+    "datos_personales": {
+        "name": "Andres",
+        "edad": 30,
+        "married": true
+    }
+}</div>
+                
+                <h4>3. Conjuntos (Sin Duplicados)</h4>
+                <div class="json-block">
+{
+    "listado_frutas": ["apple", "banana", "orange"],
+    "numeros_seleccionados": [1, 2, 3],
+    "fotos": ["binary1", "binary2", "binary3"]
+}</div>
+            </section>
+            
+            <!-- INSTALACIÓN -->
+            <section id="instalacion">
+                <h2>⚙️ Instalación y Configuración</h2>
+                
+                <h3>Instalación de AWS CLI</h3>
+                <div class="code-block">
+msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
+aws --version</div>
+                
+                <h3>Configuración Inicial</h3>
+                <div class="warning-box">
+                    <p><strong>⚠️ Importante:</strong> Antes de configurar, obtén las credenciales desde:</p>
+                    <p><code>https://docs.aws.amazon.com/es_es/cli/latest/userguide/getting-started-quickstart.html</code></p>
+                    <p>Busca el recuadro "Short-term credentials"</p>
+                </div>
+                
+                <div class="code-block">
+aws configure</div>
+                
+                <p>Se solicitarán los siguientes datos:</p>
+                <ol>
+                    <li>🔐 Clave de acceso</li>
+                    <li>🔒 Clave secreta</li>
+                    <li>🌎 Región (donde se creó la tabla)</li>
+                    <li>📄 Formato de salida (json)</li>
+                </ol>
+                
+                <h4>Verificación de Configuración</h4>
+                <div class="tip-box">
+                    <p><strong>📁 Archivos de configuración:</strong> <code>C:\Users\[usuario]\.aws</code></p>
+                </div>
+                
+                <div class="code-block">
+cat config
+cat credentials</div>
+                
+                <h4>Gestión de Perfiles</h4>
+                <div class="code-block">
+# Crear nuevo perfil
+aws configure --profile [nombre]
+
+# Usar perfil específico
+aws dynamodb list-tables --profile [nombre]
+
+# Listar tablas
+aws dynamodb list-tables</div>
+            </section>
+            
+            <!-- CRUD -->
+            <section id="crud">
+                <h2>🔧 Operaciones CRUD</h2>
+                
+                <h3>📝 CREATE (PUT)</h3>
+                
+                <h4>Inserción Directa</h4>
+                <div class="code-block">
+aws dynamodb put-item ^
+--table-name users_prueba ^
+--item "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}"</div>
+                
+                <h4>Inserción desde Archivo JSON</h4>
+                <div class="json-block">
+<!-- customer1.json -->
+{
+    "customer_id": { "S": "C001" },
+    "email": { "S": "email.ii@gmail.com" },
+    "name": { "S": "John Doe" },
+    "phone": { "S": "+1234567890" }
+}</div>
+                
+                <div class="code-block">
+# Insertar item básico
+aws dynamodb put-item --table-name customers --item file://customer1.json
+
+# Con información de consumo
+aws dynamodb put-item --table-name customers --item file://customer1.json --return-consumed-capacity TOTAL
+
+# Mostrando valores anteriores
+aws dynamodb put-item --table-name customers --item file://customer1.json --return-consumed-capacity TOTAL --return-values ALL_OLD</div>
+                
+                <h4>Inserción de Productos</h4>
+                <div class="json-block">
+<!-- insert_product.json -->
+{
+    "product_id": { "S": "P002" },
+    "category": { "S": "Electronics" },
+    "name": { "S": "Smartphone" },
+    "price": { "N": "699.99" },
+    "stock": { "N": "50" },
+    "description": { "S": "Latest model smartphone with advanced features" }
+}</div>
+                
+                <h4>Inserción de Órdenes (con Listas y Mapas)</h4>
+                <div class="json-block">
+<!-- insert_order.json -->
+{
+    "order_id": { "S": "O1001" },
+    "customer_id": { "S": "C002" },
+    "order_date": { "S": "2024-06-15T10:30:00Z" },
+    "order_status": { "S": "Processing" },
+    "total_amount": { "N": "699.99" },
+    "products": {
+        "L": [
+            {
+                "M": {
+                    "product_id": { "S": "P002" },
+                    "quantity": { "N": "1" },
+                    "price": { "N": "699.99" }
+                }
+            }
+        ]
+    }
+}</div>
+                
+                <div class="info-box">
+                    <p><strong>🔤 Tipos de Datos:</strong></p>
+                    <ul>
+                        <li><strong>L:</strong> Lista (List)</li>
+                        <li><strong>M:</strong> Mapa (Map)</li>
+                        <li><strong>S:</strong> String</li>
+                        <li><strong>N:</strong> Number</li>
+                    </ul>
+                </div>
+                
+                <h4>Inserción por Lotes</h4>
+                <div class="json-block">
+<!-- batch_products.json -->
+{
+    "products": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": { "S": "P001" },
+                    "name": { "S": "Wireless Mouse" },
+                    "description": { "S": "Ergonomic wireless mouse with adjustable DPI." },
+                    "price": { "N": "29.99" },
+                    "stock": { "N": "150" },
+                    "category": { "S": "Electronics" }
+                }
+            }
+        }
+        // ... más productos
+    ]
+}</div>
+                
+                <div class="code-block">
+aws dynamodb batch-write-item --request-items file://batch_products.json</div>
+                
+                <h3>📖 READ (GET)</h3>
+                
+                <h4>Obtener Item Completo</h4>
+                <div class="code-block">
+aws dynamodb get-item ^
+--table-name users_prueba ^
+--key "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}"</div>
+                
+                <h4>Obtener Atributos Específicos</h4>
+                <div class="code-block">
+aws dynamodb get-item --table-name customers --key file://get_item_customer.json --projection-expression "customer_id, email, address"</div>
+                
+                <h3>🔄 UPDATE</h3>
+                
+                <h4>Actualización Básica</h4>
+                <div class="code-block">
+aws dynamodb update-item ^
+--table-name users_prueba ^
+--key "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}" ^
+--update-expression "SET age = :age" ^
+--expression-attribute-values "{\":age\": {\"N\": \"25\"}}"</div>
+                
+                <h4>Actualización con Palabras Reservadas</h4>
+                <div class="json-block">
+<!-- exp_attribut_customer_name.json -->
+{ "#ph": "phone" }
+
+<!-- exp_attribut_customer_value.json -->
+{ ":ph": { "S": "555-1234" } }</div>
+                
+                <div class="code-block">
+aws dynamodb update-item --table-name customers --key file://customer1.json --update-expression "SET #ph = :ph" --expression-attribute-names file://exp_attribut_customer_name.json --expression-attribute-values file://exp_attribut_customer_value.json --return-values ALL_OLD</div>
+                
+                <h4>Actualización Condicional</h4>
+                <div class="code-block">
+aws dynamodb update-item --table-name customers --key file://customer_to_update.json --update-expression "SET phone = :newPhone" --condition-expression "#name = :_name" --expression-attribute-values file://exp_attrib_value_customer.json --expression-attribute-names file://exp_attrib_name_customer.json</div>
+                
+                <h4>Agregar Elementos a una Lista</h4>
+                <div class="code-block">
+aws dynamodb update-item --table-name orders --key file://order_add_item.json --update-expression "SET items = list_append(items, :newItem)" --expression-attribute-values file://exp_attrib_value_order.json</div>
+                
+                <h3>🗑️ DELETE</h3>
+                
+                <h4>Eliminar Item Individual</h4>
+                <div class="code-block">
+aws dynamodb delete-item ^
+--table-name users_prueba ^
+--key "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}"</div>
+                
+                <h4>Eliminar desde Archivo</h4>
+                <div class="json-block">
+<!-- delete_item.json -->
+{
+    "customer_id": { "S": "C002" },
+    "email": { "S": "email.consumo@gmail.com" }
+}</div>
+                
+                <div class="code-block">
+aws dynamodb delete-item --table-name customers --key file://delete_item.json</div>
+                
+                <h4>Eliminación por Lotes</h4>
+                <div class="json-block">
+<!-- delete_orders.json -->
+{
+    "orders": [
+        {
+            "DeleteRequest": {
+                "Key": {
+                    "order_id": { "S": "O001" }
+                }
+            }
+        },
+        {
+            "DeleteRequest": {
+                "Key": {
+                    "order_id": { "S": "O002" }
+                }
+            }
+        }
+    ]
+}</div>
+                
+                <div class="code-block">
+aws dynamodb batch-write-item --request-items file://delete_orders.json</div>
+            </section>
+            
+            <!-- CONSULTAS -->
+            <section id="consultas">
+                <h2>🔍 Consultas y Escaneos</h2>
+                
+                <h3>📊 QUERY (Consultas Eficientes)</h3>
+                
+                <h4>Consulta con Rango</h4>
+                <div class="json-block">
+<!-- exp_val_prod.json -->
+{
+    ":ctg": { "S": "Electronics" },
+    ":min_price": { "N": "100" },
+    ":max_price": { "N": "500" }
+}</div>
+                
+                <div class="code-block">
+aws dynamodb query --table-name products --index-name "category-price-index" --key-condition-expression "category = :ctg AND price BETWEEN :min_price AND :max_price" --expression-attribute-values file://exp_val_prod.json</div>
+                
+                <h4>Consulta con Proyección</h4>
+                <div class="code-block">
+aws dynamodb query --table-name products --index-name "category-price-index" --key-condition-expression "category = :ctg AND price BETWEEN :min_price AND :max_price" --expression-attribute-values file://exp_val_prod.json --select SPECIFIC_ATTRIBUTES --projection-expression "product_id, category, price"</div>
+                
+                <h4>Consulta con Ordenamiento</h4>
+                <div class="json-block">
+<!-- order_gsi.json -->
+{
+    ":custid": { "S": "C001" },
+    ":od": { "S": "2025-09-18" }
+}</div>
+                
+                <div class="code-block">
+# Orden ascendente (por defecto)
+aws dynamodb query --table-name orders --index-name "customer_id-order_date-index" --key-condition-expression "customer_id = :custid AND order_date >= :od" --expression-attribute-values file://order_gsi.json
+
+# Orden descendente
+aws dynamodb query --table-name orders --index-name "customer_id-order_date-index" --key-condition-expression "customer_id = :custid AND order_date >= :od" --expression-attribute-values file://order_gsi.json --no-scan-index-forward</div>
+                
+                <h3>🔎 SCAN (Escaneo Completo)</h3>
+                
+                <div class="warning-box">
+                    <p><strong>⚠️ Advertencia:</strong> SCAN examina toda la tabla y consume más recursos que QUERY. Úsalo solo cuando sea necesario.</p>
+                </div>
+                
+                <h4>Escaneo Completo</h4>
+                <div class="code-block">
+aws dynamodb scan --table-name customers</div>
+                
+                <h4>Escaneo con Filtro</h4>
+                <div class="json-block">
+<!-- scan.json -->
+{
+    ":ct": { "S": "Soacha" }
+}</div>
+                
+                <div class="code-block">
+aws dynamodb scan --table-name customers --filter-expression "address.City = :ct" --expression-attribute-values file://scan.json</div>
+                
+                <h4>Búsqueda con "begins_with"</h4>
+                <div class="json-block">
+<!-- scan_letter.json -->
+{ ":letter": { "S": "S" } }
+
+<!-- exp_val_prod_A.json -->
+{ "#name": "name" }</div>
+                
+                <div class="code-block">
+aws dynamodb scan --table-name products --filter-expression "begins_with(#name, :letter)" --expression-attribute-values file://scan_letter.json --expression-attribute-names file://exp_val_prod_A.json</div>
+                
+                <h3>📄 Paginación</h3>
+                
+                <h4>Limitar Resultados</h4>
+                <div class="code-block">
+# Obtener solo 3 items
+aws dynamodb scan --table-name orders --limit 3</div>
+                
+                <h4>Página Siguiente</h4>
+                <div class="json-block">
+<!-- lastEvaluation.json -->
+{
+    "customer_id": { "S": "C007" },
+    "order_id": { "S": "O007" }
+}</div>
+                
+                <div class="code-block">
+aws dynamodb scan --table-name orders --limit 3 --exclusive-start-key file://lastEvaluation.json</div>
+            </section>
+            
+            <!-- ÍNDICES -->
+            <section id="indices">
+                <h2>🎯 Trabajando con Índices</h2>
+                
+                <h3>Índices Secundarios Globales (GSI)</h3>
+                
+                <div class="info-box">
+                    <p><strong>💡 Ventaja:</strong> Los índices permiten consultas mucho más rápidas y eficientes.</p>
+                </div>
+                
+                <h4>Consulta usando GSI</h4>
+                <div class="json-block">
+<!-- customer_index.json -->
+{
+    ":custid": { "S": "C001" },
+    ":ph": { "S": "+1234567890" }
+}</div>
+                
+                <div class="code-block">
+aws dynamodb query --table-name customers --index-name "phone-index" --key-condition-expression "customer_id = :custid AND phone = :ph" --expression-attribute-values file://customer_index.json</div>
+                
+                <h3>Manejo de Palabras Reservadas</h3>
+                
+                <div class="warning-box">
+                    <p><strong>⚠️ Importante:</strong> Cuando uses atributos que son palabras reservadas en DynamoDB (como "name", "status", "data"), debes usar expression-attribute-names.</p>
+                </div>
+                
+                <h4>Consulta con Atributo Reservado Simple</h4>
+                <div class="code-block">
+# Usando archivo
+aws dynamodb get-item --table-name customers --key file://customer1.json --projection-expression "#name" --expression-attribute-names file://exp_val_prod_A.json
+
+# Inline
+aws dynamodb get-item --table-name customers --key file://customer1.json --projection-expression "#name" --expression-attribute-names '{"#name":"name"}'</div>
+                
+                <h4>Consulta con

@@ -1,0 +1,132 @@
+{
+  "orders": [
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C013" },
+          "order_id": { "S": "O013" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C007" },
+          "order_id": { "S": "O007" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C011" },
+          "order_id": { "S": "O011" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C015" },
+          "order_id": { "S": "O015" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C010" },
+          "order_id": { "S": "O010" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C004" },
+          "order_id": { "S": "O004" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C003" },
+          "order_id": { "S": "O003" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C002" },
+          "order_id": { "S": "O1001" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C008" },
+          "order_id": { "S": "O008" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C006" },
+          "order_id": { "S": "O006" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C012" },
+          "order_id": { "S": "O012" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C002" },
+          "order_id": { "S": "O002" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C005" },
+          "order_id": { "S": "O005" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C009" },
+          "order_id": { "S": "O009" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C001" },
+          "order_id": { "S": "O001" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "customer_id": { "S": "C014" },
+          "order_id": { "S": "O014" }
+        }
+      }
+    }
+  ]
+}

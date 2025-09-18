@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Apuntes DynamoDB y AWS CLI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3, h4 {
+      color: #004085;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    code {
+      color: #c7254e;
+      background: #f9f2f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .section {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-left: 6px solid #004085;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    ul {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📘 Apuntes de DynamoDB y AWS CLI</h1>
+
+  <div class="section">
+    <h2>Tipos de Bases NoSQL</h2>
+    <ul>
+      <li><b>Documentos</b>: JSON, BSON, XML. Flexibles para datos estructurados y no estructurados.</li>
+      <li><b>Clave-Valor</b>: Lectura/escritura rápida (ej: Redis, DynamoDB).</li>
+      <li><b>Columnares</b>: Almacenan en columnas (ej: Cassandra, HBase).</li>
+      <li><b>Grafos</b>: Datos interconectados y relaciones complejas (ej: Neo4j).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📌 DynamoDB</h2>
+    <h3>Estructura</h3>
+    <ul>
+      <li>Tablas con clave primaria compuesta:
+        <ul>
+          <li>Clave de partición</li>
+          <li>Clave de ordenación</li>
+        </ul>
+      </li>
+      <li>Índices:
+        <ul>
+          <li>Secundarios/globales</li>
+          <li>Locales</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Diseños de Tablas</h3>
+    <ul>
+      <li><b>Tabla múltiple</b>: una por entidad, más claro pero más costoso.</li>
+      <li><b>Tabla única</b>: más eficiente y barato, pero acceso más complejo.</li>
+    </ul>
+
+    <h3>Modelo de datos</h3>
+    <p>Uso de claves primarias e índices para mejorar accesos.</p>
+  </div>
+
+  <div class="section">
+    <h2>Tipos de Datos en DynamoDB</h2>
+    <h3>Escalares</h3>
+    <pre>{
+  "nombre": "Hello, World",
+  "edad": 45,
+  "foto": "Foto/base64",
+  "telefono": null
+}</pre>
+
+    <h3>Documentos</h3>
+    <pre>{
+  "personas_asociadas": ["apple","banana",123,true],
+  "datos_personales": { "name": "Andres", "edad": 30, "married": true }
+}</pre>
+
+    <h3>Conjuntos</h3>
+    <pre>{
+  "listado_frutas": ["apple","banana","orange"],
+  "numeros_seleccionados": {1,2,3},
+  "fotos": {"binary1","binary2","binary3"}
+}</pre>
+  </div>
+
+  <div class="section">
+    <h2>⚙️ AWS CLI</h2>
+    <h3>Instalación</h3>
+    <pre>msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
+aws --version</pre>
+    <p>Documentación: 
+      <a href="https://docs.aws.amazon.com/es_es/cli/latest/userguide/getting-started-quickstart.html" target="_blank">Quickstart AWS CLI</a>
+    </p>
+    <h3>Configuración</h3>
+    <pre>aws configure
+# 1. Clave de acceso
+# 2. Clave secreta
+# 3. Región
+# 4. Formato salida (json)</pre>
+    <p>Ruta de configuración: <code>C:\Users\andre\.aws</code></p>
+  </div>
+
+  <div class="section">
+    <h2>📂 Comandos DynamoDB (CRUD)</h2>
+    <h3>Crear (Put)</h3>
+    <pre>aws dynamodb put-item --table-name users_prueba \
+--item "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}"</pre>
+
+    <h3>Leer (Get)</h3>
+    <pre>aws dynamodb get-item --table-name users_prueba \
+--key "{\"user_id\": {\"S\": \"user001\"}}"</pre>
+
+    <h3>Actualizar (Update)</h3>
+    <pre>aws dynamodb update-item --table-name users_prueba \
+--key "{\"user_id\": {\"S\": \"user001\"}}" \
+--update-expression "SET age = :age" \
+--expression-attribute-values "{\":age\": {\"N\": \"25\"}}"</pre>
+
+    <h3>Eliminar (Delete)</h3>
+    <pre>aws dynamodb delete-item --table-name users_prueba \
+--key "{\"user_id\": {\"S\": \"user001\"}}"</pre>
+  </div>
+
+  <div class="section">
+    <h2>🔎 Consultas y Escaneos</h2>
+    <ul>
+      <li><b>Listar tablas</b>: <code>aws dynamodb list-tables</code></li>
+      <li><b>Query con BETWEEN</b>:
+        <pre>aws dynamodb query --table-name products \
+--index-name "category-price-index" \
+--key-condition-expression "category = :ctg AND price BETWEEN :min_price AND :max_price" \
+--expression-attribute-values file://exp_val_prod.json</pre>
+      </li>
+      <li><b>Scan con filtro</b>:
+        <pre>aws dynamodb scan --table-name customers \
+--filter-expression "address.City = :ct" \
+--expression-attribute-values file://scan.json</pre>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📊 Ejemplos Avanzados</h2>
+    <ul>
+      <li>Batch write</li>
+      <li>Indices (GSI y LSI)</li>
+      <li>Delete table</li>
+      <li>Paginación con <code>--limit</code> y <code>--exclusive-start-key</code></li>
+    </ul>
+  </div>
+
+  <footer>
+    <p><b>Nota:</b> todos los ejemplos están adaptados para DynamoDB con AWS CLI. Ajustar claves, tablas y valores según tu entorno.</p>
+  </footer>
+
+</body>
+</html>

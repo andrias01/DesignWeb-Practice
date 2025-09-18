@@ -1,0 +1,69 @@
+{
+  "customers": [
+    {
+      "PutRequest": {
+        "Item": {
+          "customer_id": { "S": "C018" },
+          "name": { "S": "Cliente Texto" },
+          "email": { "S": "texto@example.com" },
+          "phone": { "S": "+573011111111" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "customer_id": { "S": "C019" },
+          "name": { "S": "Cliente Número" },
+          "credit_score": { "N": "750" },
+          "balance": { "N": "12345.67" },
+          "purchases": { "N": "42" },
+          "email": { "S": "direccion55@example.com" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "customer_id": { "S": "C020" },
+          "name": { "S": "Cliente Dirección" },
+          "address": {
+            "M": {
+              "zip": { "S": "600001" },
+              "City": { "S": "Neiva" },
+              "state": { "S": "Huila" }
+            }
+          },
+          "email": { "S": "direccion@example.com" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "customer_id": { "S": "C021" },
+          "name": { "S": "Cliente Lista" },
+          "tags": {
+            "L": [
+              { "S": "VIP" },
+              { "S": "frecuente" },
+              { "N": "2025" }
+            ]
+          },
+          "email": { "S": "lista@example.com" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "customer_id": { "S": "C022" },
+          "name": { "S": "Cliente Booleano y Nulo" },
+          "active": { "BOOL": true },
+          "middle_name": { "NULL": true },
+          "email": { "S": "booleano@example.com" }
+        }
+      }
+    }
+  ]
+}

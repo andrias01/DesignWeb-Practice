@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apuntes de Bases de Datos NoSQL y DynamoDB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #0056b3;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        pre {
+            background: #eee;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #d9534f;
+        }
+        .note {
+            background-color: #ffffe0;
+            border-left: 5px solid #ffd700;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apuntes sobre Bases de Datos NoSQL y Amazon DynamoDB 🚀</h1>
+
+        <h2>Tipos de Bases de Datos NoSQL</h2>
+        
+        <h3>Documentos 📄</h3>
+        <ul>
+            <li>Almacenan datos en formato de documentos, como <strong>JSON</strong>, <strong>BSON</strong> (Binary JSON) o <strong>XML</strong>.</li>
+            <li>Utilizan pares clave-valor y permiten una estructura flexible para datos estructurados y no estructurados.</li>
+        </ul>
+
+        <h3>Clave-Valor 🔑</h3>
+        <ul>
+            <li>La clave recupera su valor para lecturas y escrituras rápidas.</li>
+            <li>Ejemplos: <strong>Redis</strong> y <strong>Amazon DynamoDB</strong>.</li>
+        </ul>
+
+        <h3>Columnares 📊</h3>
+        <ul>
+            <li>Almacenan datos en columnas, lo que optimiza la compresión y la lectura de grandes volúmenes de datos.</li>
+            <li>Ejemplos: <strong>Cassandra</strong> y <strong>HBase</strong>.</li>
+        </ul>
+
+        <h3>Grafos 🕸️</h3>
+        <ul>
+            <li>Ideales para consultar datos altamente interconectados y gestionar relaciones complejas.</li>
+            <li>Ejemplo: <strong>Neo4j</strong>.</li>
+        </ul>
+
+        <hr>
+
+        <h2>¡¡¡ Amazon DynamoDB !!!</h2>
+
+        <h3>Tablas 🍽️</h3>
+        <p>Las tablas en DynamoDB tienen una clave primaria que puede ser simple o compuesta:</p>
+        <ul>
+            <li><strong>Clave de Partición:</strong> Determina la partición física donde se almacenan los datos.</li>
+            <li><strong>Clave de Ordenación (Opcional):</strong> Ordena los datos dentro de una partición.</li>
+        </ul>
+
+        <h3>Índices 📈</h3>
+        <ul>
+            <li><strong>Índices Secundarios Globales (GSI):</strong> Permiten consultas flexibles con claves de partición y ordenación diferentes a las de la tabla.</li>
+            <li><strong>Índices Locales (LSI):</strong> Utilizan la misma clave de partición que la tabla, pero una clave de ordenación diferente.</li>
+        </ul>
+
+        <h3>Diseños de Tablas</h3>
+        <ul>
+            <li><strong>Tabla Múltiple:</strong> Enfoque tradicional con una tabla para cada entidad. Ofrece mayor flexibilidad y entendimiento, pero puede ser más costoso.</li>
+            <li><strong>Tabla Única:</strong> Agrupa múltiples entidades en una sola tabla. Es más eficiente en costos y facilita el escalado, pero aumenta la complejidad en el acceso a datos complejos.</li>
+        </ul>
+
+        <h3>Modelo de Datos</h3>
+        <p>Se recomienda usar la clave primaria y los índices (locales y globales) para optimizar el acceso a los datos.</p>
+
+        <h3>Tipos de Datos</h3>
+        <h4>1. Escalares</h4>
+        <ul>
+            <li><strong>String:</strong> Cadena de texto.</li>
+            <li><strong>Number:</strong> Números.</li>
+            <li><strong>Binary:</strong> Datos binarios (ej. imágenes).</li>
+            <li><strong>Boolean:</strong> Verdadero o falso.</li>
+            <li><strong>Null:</strong> Valor nulo.</li>
+        </ul>
+        <pre><code>{
+    "nombre": "Hello, World",
+    "edad": 45,
+    "foto": "httpsdfdfffdFoto /base64",
+    "telefono": null
+}</code></pre>
+
+        <h4>2. Documentos</h4>
+        <ul>
+            <li><strong>List:</strong> Colección ordenada de elementos.</li>
+            <li><strong>Map:</strong> Colección no ordenada de pares clave-valor.</li>
+        </ul>
+        <pre><code>{
+    "personas_asociadas": ["apple", "banana", 123, true],
+    "datos_personales": { "name": "Andres", "edad": 30, "married": true }
+}</code></pre>
+
+        <h4>3. Conjuntos (Sets)</h4>
+        <p>Colecciones no ordenadas de elementos únicos.</p>
+        <ul>
+            <li><strong>String Set</strong></li>
+            <li><strong>Number Set</strong></li>
+            <li><strong>Binary Set</strong></li>
+        </ul>
+        <pre><code>{
+    "listado_frutas": ["apple", "banana", "orange"],
+    "numeros_seleccionados": {1, 2, 3},
+    "fotos": { "binary1", "binary2", "binary3" }
+}</code></pre>
+
+        <hr>
+
+        <h2>Instalación y Configuración de AWS CLI 💻</h2>
+        <p>Para instalar la Interfaz de Línea de Comandos de AWS (AWS CLI) en Windows, ejecuta:</p>
+        <pre><code>msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi</code></pre>
+        <p>Verifica la instalación con:</p>
+        <pre><code>aws --version</code></pre>
+        <p>Para la configuración, sigue la <a href="https://docs.aws.amazon.com/es_es/cli/latest/userguide/getting-started-quickstart.html" target="_blank">guía oficial</a> y busca la sección de "Short-term credentials".</p>
+        <p>Configura tus credenciales:</p>
+        <pre><code>aws configure</code></pre>
+        <ol>
+            <li><strong>AWS Access Key ID:</strong> Tu clave de acceso.</li>
+            <li><strong>AWS Secret Access Key:</strong> Tu clave secreta.</li>
+            <li><strong>Default region name:</strong> La región donde creaste la tabla (ej. <code>us-east-1</code>).</li>
+            <li><strong>Default output format:</strong> Formato de salida (ej. <code>json</code>).</li>
+        </ol>
+        <p>Los archivos de configuración se guardan en <code>C:\Users\tu_usuario\.aws</code>. Puedes verlos con:</p>
+        <pre><code>cat config
+cat credentials</code></pre>
+        <p>Para crear y usar perfiles de usuario:</p>
+        <pre><code># Crear un perfil de usuario
+aws configure --profile [nombre_perfil]
+
+# Listar tablas con un perfil específico
+aws dynamodb list-tables --profile [nombre_perfil]</code></pre>
+
+        <hr>
+
+        <h2>Operaciones CRUD (Create, Read, Update, Delete)</h2>
+
+        <h3>PUT (Crear/Insertar)</h3>
+        <pre><code>aws dynamodb put-item ^
+--table-name users_prueba ^
+--item "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}"</code></pre>
+
+        <h3>GET (Leer)</h3>
+        <pre><code>aws dynamodb get-item ^
+--table-name users_prueba ^
+--key "{\"user_id\": {\"S\": \"user001\"}}"</code></pre>
+
+        <h3>UPDATE (Actualizar)</h3>
+        <pre><code>aws dynamodb update-item ^
+--table-name users_prueba ^
+--key "{\"user_id\": {\"S\": \"user001\"}}" ^
+--update-expression "SET age = :age" ^
+--expression-attribute-values "{\":age\": {\"N\": \"25\"}}"</code></pre>
+
+        <h3>DELETE (Eliminar)</h3>
+        <pre><code>aws dynamodb delete-item ^
+--table-name users_prueba ^
+--key "{\"user_id\": {\"S\": \"user001\"}}"</code></pre>
+
+        <hr>
+
+        <h2>Uso con Archivos JSON en Visual Studio Code 📂</h2>
+        
+        <h3>Insertar un Ítem desde un archivo JSON</h3>
+        <p>Crea un archivo <code>customer1.json</code>:</p>
+        <pre><code>{
+    "customer_id": {"S": "C001"},
+    "email": {"S": "email.ii@gmail.com"},
+    "name": {"S": "John Doe"},
+    "phone": {"S": "+1234567890"}
+}</code></pre>
+        <p>Ejecuta el comando:</p>
+        <pre><code>aws dynamodb put-item --table-name customers --item file://customer1.json</code></pre>
+
+        <div class="note">
+            <p><strong>Notas Adicionales sobre PUT:</strong></p>
+            <ul>
+                <li><strong>Retornar capacidad consumida:</strong> <code>--return-consumed-capacity TOTAL</code></li>
+                <li><strong>Retornar valores antiguos tras actualizar:</strong> <code>--return-values ALL_OLD</code></li>
+            </ul>
+        </div>
+        
+        <h3>Ejemplos de Inserción (Products y Orders)</h3>
+        <p><code>insert_product.json</code></p>
+        <pre><code>{
+    "product_id": {"S": "P002"},
+    "category": {"S": "Electronics"},
+    "name": {"S": "Smartphone"},
+    "price": {"N": "699.99"},
+    "stock": {"N": "50"},
+    "description": {"S": "Latest model smartphone with advanced features"}
+}</code></pre>
+        <pre><code>aws dynamodb put-item --table-name products --item file://insert_product.json</code></pre>
+        
+        <p><code>insert_order.json</code> (<code>L</code> es una Lista, <code>M</code> es un Mapa)</p>
+        <pre><code>{
+    "order_id": {"S": "O1001"},
+    "customer_id": {"S": "C002"},
+    "order_date": {"S": "2024-06-15T10:30:00Z"},
+    "order_status": {"S": "Processing"},
+    "total_amount": {"N": "699.99"},
+    "products": {
+        "L": [
+            {
+                "M": {
+                    "product_id": {"S": "P002"},
+                    "quantity": {"N": "1"},
+                    "price": {"N": "699.99"}
+                }
+            }
+        ]
+    }
+}</code></pre>
+        <pre><code>aws dynamodb put-item --table-name orders --item file://insert_order.json</code></pre>
+
+        <h3>Eliminar un Ítem desde un archivo JSON</h3>
+        <p>Crea un archivo <code>delete_item.json</code> con la clave primaria:</p>
+        <pre><code>{
+  "customer_id": { "S": "C002" },
+  "email": { "S": "email.consumo@gmail.com" }
+}</code></pre>
+        <pre><code>aws dynamodb delete-item --table-name customers --key file://delete_item.json</code></pre>
+
+        <h3>Inserciones Múltiples (Batch Write)</h3>
+        <p>Crea un archivo <code>batch_products.json</code>:</p>
+        <pre><code>{
+    "products": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {"S": "P001"},
+                    "name": {"S": "Wireless Mouse"},
+                    "price": {"N": "29.99"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {"S": "P002"},
+                    "name": {"S": "Smartphone"},
+                    "price": {"N": "699.99"}
+                }
+            }
+        }
+    ]
+}</code></pre>
+        <pre><code>aws dynamodb batch-write-item --request-items file://batch_products.json</code></pre>
+
+        <hr>
+
+        <h2>Consultas Avanzadas (Query y Scan)</h2>
+        
+        <h3>Obtener un Ítem con Atributos Específicos</h3>
+        <pre><code>aws dynamodb get-item \
+--table-name customers \
+--key file://get_item_customer.json \
+--projection-expression "customer_id, email, address"</code></pre>
+
+        <h3>Consulta (Query) con Condiciones</h3>
+        <p>Usa <code>--key-condition-expression</code> para filtrar por clave de partición y (opcionalmente) de ordenación.</p>
+        <p>Archivo <code>exp_val_prod.json</code>:</p>
+        <pre><code>{
+    ":ctg": { "S" : "Electronics"},
+    ":min_price": { "N" : "100" },
+    ":max_price": { "N" : "500" }
+}</code></pre>
+        <pre><code>aws dynamodb query \
+--table-name products \
+--index-name "category-price-index" \
+--key-condition-expression "category = :ctg AND price BETWEEN :min_price AND :max_price" \
+--expression-attribute-values file://exp_val_prod.json</code></pre>
+        <p>Para seleccionar solo algunos atributos en la respuesta, añade:</p>
+        <pre><code>--select SPECIFIC_ATTRIBUTES --projection-expression "product_id, category, price"</code></pre>
+
+        <h3>Escaneo (Scan)</h3>
+        <div class="note"><strong>¡Cuidado!</strong> Un <code>scan</code> lee todos los ítems de la tabla, lo que puede ser costoso en tablas grandes. Úsalo con moderación.</div>
+        <p>Para obtener todos los ítems:</p>
+        <pre><code>aws dynamodb scan --table-name customers</code></pre>
+        <p>Para escanear con un filtro:</p>
+        <pre><code>aws dynamodb scan \
+--table-name customers \
+--filter-expression "address.City = :ct" \
+--expression-attribute-values file://scan.json</code></pre>
+        
+        <h3>Manejo de Palabras Reservadas</h3>
+        <p>Si un atributo tiene un nombre que es una palabra reservada en DynamoDB (como "name"), usa <code>--expression-attribute-names</code>.</p>
+        <p>Archivo <code>exp_names.json</code>:</p>
+        <pre><code>{"#name": "name"}</code></pre>
+        <pre><code>aws dynamodb get-item \
+--table-name customers \
+--key file://customer1.json \
+--projection-expression "#name" \
+--expression-attribute-names file://exp_names.json</code></pre>
+        
+        <hr>
+
+        <h2>Paginación 📄</h2>
+        <p>Para limitar el número de resultados por página, usa <code>--limit</code>.</p>
+        <pre><code>aws dynamodb scan --table-name orders --limit 3</code></pre>
+        <p>La respuesta incluirá un <code>NextToken</code> (o <code>LastEvaluatedKey</code>). Para obtener la siguiente página, usa este valor con <code>--starting-token</code> (o <code>--exclusive-start-key</code>).</p>
+        <p>Crea un archivo <code>lastEvaluation.json</code> con el valor de <code>LastEvaluatedKey</code>.</p>
+        <pre><code>aws dynamodb scan --table-name orders --limit 3 --exclusive-start-key file://lastEvaluation.json</code></pre>
+        
+        <hr>
+
+        <h2>Prácticas Adicionales</h2>
+        
+        <h3>Actualización Condicional</h3>
+        <p>Actualiza un ítem solo si se cumple una condición usando <code>--condition-expression</code>.</p>
+        <pre><code>aws dynamodb update-item \
+--table-name customers \
+--key file://customer_to_update.json \
+--update-expression "SET phone = :newPhone" \
+--condition-expression "#name = :_name" \
+--expression-attribute-values file://exp_attrib_value_customer.json \
+--expression-attribute-names file://exp_attrib_name_customer.json</code></pre>
+
+        <h3>Agregar un Elemento a una Lista</h3>
+        <p>Usa la función <code>list_append</code> en la expresión de actualización.</p>
+        <pre><code>aws dynamodb update-item \
+--table-name orders \
+--key file://order_add_item.json \
+--update-expression "SET items = list_append(items, :newItem)" \
+--expression-attribute-values file://exp_attrib_value_order.json</code></pre>
+    </div>
+</body>
+</html>

@@ -1,0 +1,638 @@
+Documentos
+almacenan datos en formato de documentos
+(JSON, BSON o XML) 
+BSON es binary json
+pares clave valor
+puede terner una estructura flexible para datos estructurados y destructurados
+
+Clave valor
+la clave recupera su valor para lectura y escritura rapida
+REDIS y AMAZON DYNAMODB
+
+Columnares
+Almacenan datos en colomnas para la comprecion de leer muchos 
+(CASSANDRA Y HBASE)
+
+Grafos
+Consultar datos alta mente interconectados relaciones complejas
+(NEO4J)
+
+!!!   DYNAMODB  ¡¡¡
+ Las TABLAS
+tienen una clave primario compuesta
+1 Clave de partición 
+2 Clave de ordenación
+
+tienen indices
+1 Indices segungarios/globales
+2 Indices locales
+
+Diseños de tablas 
+1 tabla múltiple : enfoque tradicional tabla para cada entidad o relación (con el fin de que atienda un aspecto especifico en la aplicación (permite mayor flexibilidad y entendimiento) mas costo.
+2 tabla  única :  Eficiencia de costos , simplicidad y fácil escalado horizontal pero mayor complejidad en acceso y rendimiento con datos o relaciones complejas menos costo.
+
+Modelo de dato
+usar clave primaria y los índices locales y globales para mejorar su acceso .
+
+Tipos de datos
+
+1 Escalares
+a  (String)
+b (Number)
+c (Binary)
+d (null)
+{
+     "nombre": "Hello, World",
+     "edad": (45),
+    "foto": "httpsdfdfffdFoto /base64"
+     "telefono": null
+}
+
+
+2 Documentos
+para almacenar colecciones ordenadas de elementos de cualquier tipo
+a (List)
+b (Map)
+{
+      "personas_asociadad":["apple","banana",123,true]
+      "datos_personales": { "name": "Andres", "edad": 30 , "married": true}
+}
+
+3 Conjuntos
+Son colecciones de elementos no ordenados que no deben tener valores duplicados
+a (String Set)
+b (Number Set)
+c (Binary Set) 
+{
+     "listado_frutas": ["apple" , "banana" , "orange"], 
+     "numeros_seleccionados": {1 , 2 , 3},
+      "fotos": { "binary1" , "binary2" , "binary3"}
+}
+
+INSTALAR AWS CLI
+msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
+aws --version
+
+ingresar a la pagina siguientes pasos
+https://docs.aws.amazon.com/es_es/cli/latest/userguide/getting-started-quickstart.html
+en esta pagina buscar un recuadro que tiene atributos y uno de ellos dice "Short-term credentials"
+
+aws configure
+1 clave de aseso 
+2 clave secreta
+3 nombre de la region donde se creo la tabla
+4 formato de salida (  json )
+
+ruta donde queda el archivo de configuracion
+C:\Users\andre\.aws
+
+aparecen dos archivos se abre un powerShell y se ponen los siguiente comandos
+cat config
+cat credentials
+
+ahora comandos de AWS
+aws dynamodb list-tables   (listamos las tablas que estan en AWS)
+aws configure --profile [name]     (para crear un ususario)
+aws dynamodb list-tables --profile [name del usuario creado] para que el usuario creado pueda ver las tablas
+
+CRUD
+PUT
+aws dynamodb put-item ^            sele dice que se va a ingresar un item 
+--table-name users_prueba ^      sele dice que tabla se va a usar
+--item "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}"     se guarda el item
+
+GET
+aws dynamodb get-item ^            sele dice que se va a consultar un item 
+--table-name users_prueba ^      sele dice que tabla se va a usar
+--key "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}"  para recuperar el item
+
+UPDATE
+aws dynamodb update-item ^            sele dice que se va a actualizar un item 
+--table-name users_prueba ^      sele dice que tabla se va a usar
+--key "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}" ^ 
+--update-expression "SET age = :age" ^        esto es para agregar un campo nuevo
+--expression-attribute-values "{\":age\": {\"N\": \"25\"}}"     para ponerle valor a ese campo
+
+DELETE
+aws dynamodb delete-item ^            sele dice que se va a eliminar un item 
+--table-name users_prueba ^      sele dice que tabla se va a usar
+--key "{\"user_id\": {\"S\": \"user001\"}, \"phone\": {\"S\": \"+2356897\"}}" 
+
+VISUAL STUDIO
+se crea un objeto json
+{
+    "customer_id": {
+        "S": "C001"
+    },
+    "email": {
+        "S": "email.ii@gmail.com"
+    },
+    "name": {
+        "S": "John Doe"
+    },
+    "phone": {
+        "S": "+1234567890"
+    }
+}
+y LUEGO
+aws dynamodb put-item --table-name customers --item file://customer1.json
+1. para insertar el item desde el .json
+
+2. Si cuando voy a agregar otro item y quiero saber cuanto es su consumo de escritura pongo lo siguiente
+aws dynamodb put-item --table-name customers --item file://customer1.json --return-consumed-capacity TOTAL 
+** me muestra algo como asi 
+{
+    "ConsumedCapacity": {
+        "TableName": "customers",
+        "CapacityUnits": 3.0
+    }
+}
+3. y si quiero actualizar y mostrar el dato que estaba antes pongo 
+aws dynamodb put-item --table-name customers --item file://customer1.json --return-consumed-capacity TOTAL --return-values ALL_OLD
+
+UPDATE VISUAL
+aws dynamodb put-item --table-name customers --item file://customer1.json --return-consumed-capacity TOTAL --return-values ALL_OLD
+** colocando al final eso actualiza el item y lo devuelve mas el tiempo de consumo
+
+*****put de un item producto
+aws dynamodb put-item --table-name products --item file://insert_product.json
+{
+    "product_id": {
+        "S": "P002"
+    },
+    "category": {
+        "S": "Electronics"
+    },
+    "name": {
+        "S": "Smartphone"
+    },
+    "price": {
+        "N": "699.99"
+    },
+    "stock": {
+        "N": "50"
+    },
+    "description": {
+        "S": "Latest model smartphone with advanced features"
+    }
+}
+ 
+****Put de un item order
+aws dynamodb put-item --table-name orders --item file://insert_order.json
+{
+    "order_id": {
+        "S": "O1001"
+    },
+    "customer_id": {
+        "S": "C002"
+    },
+    "order_date": {
+        "S": "2024-06-15T10:30:00Z"
+    },
+    "order_status": {
+        "S": "Processing"
+    },
+    "total_amount": {
+        "N": "699.99"
+    },
+    "products": {
+        "L": [
+            {
+                "M": {
+                    "product_id": {
+                        "S": "P002"
+                    },
+                    "quantity": {
+                        "N": "1"
+                    },
+                    "price": {
+                        "N": "699.99"
+                    }
+                }
+            }
+        ]
+    }
+}
+L => es una lista
+M => es un mapa
+
+**Para eliminar un item  desde visual
+creo el archivo con  la  praticion key y la sort key
+{
+  "customer_id": { "S": "C002" },
+  "email": { "S": "email.consumo@gmail.com" }
+}
+y  luego pongo lo siguiente
+aws dynamodb delete-item --table-name customers --key file://delete_item.json
+
+***Para hacer multiples inserciones 
+aws dynamodb batch-write-item --request-item file://batch_products.json
+{
+    "products": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {
+                        "S": "P001"
+                    },
+                    "name": {
+                        "S": "Wireless Mouse"
+                    },
+                    "description": {
+                        "S": "Ergonomic wireless mouse with adjustable DPI."
+                    },
+                    "price": {
+                        "N": "29.99"
+                    },
+                    "stock": {
+                        "N": "150"
+                    },
+                    "category": {
+                        "S": "Electronics"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {
+                        "S": "P002"
+                    },
+                    "name": {
+                        "S": "Smartphone"
+                    },
+                    "description": {
+                        "S": "Latest model smartphone with advanced features"
+                    },
+                    "price": {
+                        "N": "699.99"
+                    },
+                    "stock": {
+                        "N": "50"
+                    },
+                    "category": {
+                        "S": "Electronics"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {
+                        "S": "P003"
+                    },
+                    "name": {
+                        "S": "Bluetooth Headphones"
+                    },
+                    "description": {
+                        "S": "Noise-cancelling over-ear Bluetooth headphones."
+                    },
+                    "price": {
+                        "N": "199.99"
+                    },
+                    "stock": {
+                        "N": "80"
+                    },
+                    "category": {
+                        "S": "Electronics"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "product_id": {
+                        "S": "P004"
+                    },
+                    "name": {
+                        "S": "Gaming Keyboard"
+                    },
+                    "description": {
+                        "S": "Mechanical gaming keyboard with RGB lighting."
+                    },
+                    "price": {
+                        "N": "89.99"
+                    },
+                    "stock": {
+                        "N": "100"
+                    },
+                    "category": {
+                        "S": "Electronics"
+                    }
+                }
+            }
+        }
+       
+    ]
+}
+
+*****Para traerme todos los datos de un item usando su primary key compuesta 
+aws dynamodb get-item --table-name customers --key file://get_item_customer.json
+{
+    "customer_id": {
+        "S": "C001"
+    },
+    "email": {
+        "S": "email.ii@gmail.com"
+    }
+}
+
+*****  Consulta de un item y atrubutos especificos
+aws dynamodb get-item --table-name customers --key file://get_item_customer.json --projection-expression "customer_id, email, address"
+{
+    "Item": {
+        "email": {
+            "S": "email.consumo@gmail.com"
+        },
+        "customer_id": {
+            "S": "C002"
+        },
+        "address": {
+            "M": {
+                "zip": {
+                    "S": "12345"
+                },
+                "City": {
+                    "S": "CityName"
+                },
+                "state": {
+                    "S": "StateName"
+                }
+            }
+        }
+    }
+}
+
+*****Consulta con BETWEEN, AND y atributo de valor
+aws dynamodb query --table-name products --index-name "category-price-index" --key-condition-expression "category = :ctg AND price BETWEEN :min_price AND :max_price" --expression-attribute-value file://exp_val_prod.json
+
+{
+    ":ctg": { "S" : "Electronics"},
+    ":min_price": { "N" : "100" },
+    ":max_price": { "N" : "500" }
+}
+
+devuelve
+{
+    "Items": [
+        {
+            "category": {
+                "S": "Electronics"
+            },
+            "stock": {
+                "N": "80"
+            },
+            "description": {
+                "S": "Noise-cancelling over-ear Bluetooth headphones."
+            },
+            "price": {
+                "N": "199.99"
+            },
+            "name": {
+                "S": "Bluetooth Headphones"
+            },
+            "product_id": {
+                "S": "P003"
+            }
+        }
+    ],
+    "Count": 1,
+    "ScannedCount": 1,
+    "ConsumedCapacity": null
+}
+
+Si se le agrega al final esto: --select SPECIFIC_ATTRIBUTES --projection-expression "product_id, category, price" 
+nos devuelve los atributos que deseamos.
+aws dynamodb query --table-name products --index-name "category-price-index" --key-condition-expression "category = :ctg AND price BETWEEN :min_price AND :max_price" --expression-attribute-value file://exp_val_prod.json --select SPECIFIC_ATTRIBUTES --projection-expression "product_id, category, price"
+
+devuelve
+{
+    "Items": [
+        {
+            "category": {
+                "S": "Electronics"
+            },
+            "price": {
+                "N": "199.99"
+            },
+            "product_id": {
+                "S": "P003"
+            }
+        }
+    ],
+    "Count": 1,
+    "ScannedCount": 1,
+    "ConsumedCapacity": null
+}
+
+***************SCAN*******************
+1. para mostrar todos los item que estan en una tabla en concreto
+aws dynamodb scan --table-name customers
+
+2. si quiero scaniar pero por un filtro para que no me traiga todos
+aws dynamodb scan --table-name customers --filter-expression "address.City = :ct" --expression-attribute-values file://scan.json
+__
+{
+    "Items": [
+        {
+            "customer_id": {
+                "S": "C015"
+            },
+            "address": {
+                "M": {
+                    "zip": {
+                        "S": "250001"
+                    },
+                    "City": {
+                        "S": "Soacha"
+                    },
+                    "state": {
+                        "S": "Cundinamarca"
+                    }
+                }
+            },
+            "email": {
+                "S": "miguel.herrera@example.com"
+            },
+            "name": {
+                "S": "Miguel Herrera"
+            },
+            "phone": {
+                "S": "+573008008008"
+            }
+        }
+    ],
+    "Count": 1,
+    "ScannedCount": 22,
+    "ConsumedCapacity": null
+}
+
+3. Para usar "begins" para buscar algo que inicie con alguna letra
+Los dos archivos que se van a mencionar
+*Scan_letter
+{
+    ":letter": { "S": "S"}
+}
+*Scan #name
+{
+    "#name" : "name"
+}
+
+aws dynamodb scan --table-name products --filter-expression "begins_with(#name, :letter)" --expression-attribute-values file://scan_letter.json --expression-attribute-names file://exp_val_prod_A.json
+
+4. Cuando se va a buscar por un atributo que es un nombre reservado en dynamo usamos
+*Scan #name
+el mismo del ejercicio anterior
+*get customer
+{
+    "customer_id": {
+        "S": "C004"
+    },
+    "email": {
+        "S": "email.andresito@gmail.com"
+    }
+}
+ 
+aws dynamodb get-item --table-name customers --key file://customer1.json --projection-expression "#name" --expression-attribute-names file://exp_val_prod_A.json
+otra forma pero colocando el nombre como tal si usar un archivo
+'{\"#name\":\"name\"}' ****
+aws dynamodb get-item --table-name customers --key file://customer1.json --projection-expression "#name" --expression-attribute-names '{\"#name\":\"name\"}'
+
+5. Si voy a anidar otro atributo que es palabra reservada en la busqueda debo poner lo siguiente.
+** "#address.#City"
+** Archivo  exp_val_custormer_addre_ct.json
+{
+    "#address": "address",
+    "#City": "City"
+}
+
+aws dynamodb get-item --table-name customers --key file://customer1.json --projection-expression "#address.#City" --expression-attribute-names file://exp_val_customer_addre_ct.json
+
+UPDATE
+si quiero actualizar un dato especifico sin saber los demas uso lo siguiente
+* name
+{
+    "#ph": "phone"
+}
+*Value
+{
+    ":ph" : { "S": "555-1234" }
+}
+el mismo customer1
+ 
+aws dynamodb update-item --table-name customers --key file://customer1.json --update-expression "SET #ph = :ph" --expression-attribute-names file://exp_attribut_customer_name.json --expression-attribute-values file://exp_attribut_customer_value.json --return-values ALL_OLD
+
+*************INDICES**********
+1. para generar una consulta mucho mas rapida uso lo siguiente
+*customer_indes  es :
+{
+    ":custid": { "S": "C001" },
+    ":ph": { "S": "+1234567890" }
+}
+
+aws dynamodb query --table-name customers --index-name "phone-index" --key-condition-expression "customer_id = :custid AND phone = :ph" --expression-attribute-values file://customer_index.json
+
+*************Eliminar tabla*******************
+1 eliminar tabla completa 
+aws dynamodb delete-table --table-name orders
+
+2. crear un archivo key.json que tiene todas las llaves primarias de los datos
+aws dynamodb scan --table-name orders --attributes-to-get order_id customer_id --output json > keys.json
+
+3. Crea un batch con DeleteRequest 
+{
+  "orders": [
+    {
+      "DeleteRequest": {
+        "Key": {
+          "order_id": { "S": "O001" }
+        }
+      }
+    },
+    {
+      "DeleteRequest": {
+        "Key": {
+          "order_id": { "S": "O002" }
+        }
+      }
+    }
+  ]
+}
+
+y comando para eliminar las ordenes 
+aws dynamodb batch-write-item --request-items file://delete_orders.json
+
+2. si quiero buscar pero con una condicion
+*archivo de parametros
+{
+    ":custid": { "S": "C001" },
+    ":od" : { "S": "2025-09-18" }
+}
+
+aws dynamodb query --table-name orders --index-name "customer_id-order_date-index" --key-condition-expression "customer_id = :custid AND order_date >= :od" --expression-attribute-values file://order_gsi.json
+
+3. para ordenar ese resultado de forma desendente usamos --no-scan-index-forward
+aws dynamodb query --table-name orders --index-name "customer_id-order_date-index" --key-condition-expression "customer_id = :custid AND order_date >= :od" --expression-attribute-values file://order_gsi.json --no-scan-index-forward
+
+***************Evaluaciones o paginaciones*******
+1. solo traer cierta cantidad de items
+aws dynamodb scan --table-name orders --limit 3
+en este caso trae los 3 primeros
+
+2. para mostrar los siguiente 3 osea la siguiente pagina desde el objeto lastEvaluation que nos dio la ultima pagina la usamos para mostrar la siguiente pagina
+*lastEvaluation.json
+{
+    "customer_id": {
+        "S": "C007"
+    },
+    "order_id": {
+        "S": "O007"
+    }
+}
+ 
+aws dynamodb scan --table-name orders --limit 3 --exclusive-start-key file://lastEvaluation.json
+
+*********PRACTICA*******
+1. Para actualizar un dato con una condicion 
+*customer_to _update
+{
+    "customer_id": { "S": "C017" },
+    "email": { "S": "andres.vega@example.com"}
+}
+*exp_attrib_value
+{
+    ":newPhone": { "S": "555-1234" },
+    ":_name" : { "S": "Andres Vega" }
+}
+*exp_attrib_name
+{
+    "#name": "name"
+}
+
+aws dynamodb update-item --table-name customers --key file://customer_to_update.json --update-expression "SET phone = :newPhone" --condition-expression "#name = :_name" --expression-attribute-values file://exp_attrib_value_customer.json --expression-attribute-names file://exp_attrib_name_customer.json
+
+2. Vamos a agregar un elemento a una lista
+*Order_add_item
+{
+    "order_id": { "S": "O007" },
+    "customer_id": { "S": "C007" }
+}
+*exp_attrib_value
+{
+    ":newItem" : {
+        "L" : [
+            {
+                "M" : {
+                    "product_id" : { "S" : "P004" },
+                    "quantity" : { "N" : "3"}
+                }
+            }
+        ]
+    }
+}
+ 
+se usa 
+aws dynamodb update-item --table-name orders --key file://order_add_item.json --update-expression "SET items = list.append(items, :newItem)" --expression-attribute-values file://exp_attrib_value_order.json

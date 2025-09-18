@@ -1,0 +1,5 @@
+{
+    ":ctg": { "S" : "Electronics"},
+    ":min_price": { "N" : "100" },
+    ":max_price": { "N" : "500" }
+}
