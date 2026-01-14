@@ -1,0 +1,7 @@
+para que funcione en windows 
+intala
+npm install --save-dev cross-env
+Y en tu package.json cambia:
+"dev": "NODE_ENV=development npm run start --workspace=packages/fossflow-app"
+por:
+"dev": "cross-env NODE_ENV=development npm run start --workspace=packages/fossflow-app"
