@@ -1,0 +1,18 @@
+<app-navbar/>
+<h1>Dragonball Page</h1>
+<hr/>
+
+<section class="row">
+    <div class="col-12 col-sm-6">
+        <dragonball-character-add
+            (newCharacter)="dragonballServiceCharacters.addCharacter($event)"
+        />
+
+    </div>
+    <div class="col-12 col-sm-6">
+        <dragonball-character-list
+        listName="Listado fuertes de color rojo" 
+        [characters]="dragonballServiceCharacters.characters()"/>
+        
+    </div>
+</section>

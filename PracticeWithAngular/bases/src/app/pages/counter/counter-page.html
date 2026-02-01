@@ -1,0 +1,14 @@
+<app-navbar/>
+<h1>Counter Page</h1>
+<hr/>
+<h2>Counter: {{ counter }}</h2>
+<button (click)="increaseBy(1)">+1</button>
+<button (click)="increaseBy(-1)">-1</button>
+<button (click)="resetCounter()">Reset</button>
+<!-- <button routerLink="/hero">Page Hero</button> -->
+<!-- esto no funciona para que funcione seguire viendo el video de fernando herrera-->
+<p>This is the counter page content.</p>
+
+
+<h1>Counter Signal</h1>
+<h2>Counter: {{ counterSignal() }}</h2>

@@ -1,0 +1,18 @@
+<app-navbar/>
+<div class="min-h-screen flex items-center justify-center bg-linear-to-br from-purple-600 via-blue-500 to-green-400 p-6 rounded-2xl">
+  <button
+    (click)="navigateToGifsView()"
+    class="group relative w-full max-w-md rounded-2xl bg-white/10 backdrop-blur-md px-8 py-6 text-center text-xl font-bold text-white shadow-xl ring-1 ring-white/20 transition-all duration-300 hover:scale-[1.03] hover:bg-white/15 active:scale-[0.98]"
+  >
+    <span class="flex items-center justify-center gap-3">
+      <span class="text-2xl">🎉</span>
+      Pasar a la página de GIFS
+      <span class="text-2xl transition-transform duration-300 group-hover:translate-x-1">➡️</span>
+    </span>
+
+    <span
+      class="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      style="box-shadow: 0 0 50px rgba(59, 130, 246, 0.25);"
+    ></span>
+  </button>
+</div>
